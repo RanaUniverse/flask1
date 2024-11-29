@@ -7,7 +7,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-from flask import url_for
+# from flask import url_for
 
 
 @app.route("/")
@@ -26,7 +26,7 @@ def process_login():
     username = request.form.get("username")
     password = request.form.get("password")
     return f"""
-    <h1>Login Successful</h1>
+    <h1>Login Successful🎉🎉🎉</h1>
     <p>Username: {username}</p>
     <p>Password: {password}</p>
     <a href="/login">Go back</a>
@@ -48,20 +48,15 @@ def render_login_form():
     """
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        return process_login()
-
-    else:
-        return render_login_form()
+@app.get("/login")
+def login_get():
+    return render_login_form()
 
 
-with app.test_request_context():
-    print(url_for("index"))
-    print(url_for("login"))
-    print(url_for("login", next="/"))
-    print(url_for("profile", username="John Doe"))
+@app.post("/login")
+def login_post():
+    return process_login()
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=9999, debug=True)
